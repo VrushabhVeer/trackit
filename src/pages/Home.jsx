@@ -10,90 +10,20 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { IconCircleArrowUpRightFilled } from "@tabler/icons-react";
 
-const jobData = [
-  {
-    company: "Amazon",
-    position: "Frontend Developer",
-    location: "Seattle, WA",
-    platform: "Indeed",
-    date: "20 May, 2025",
-    status: "Applied",
-    website: "https://www.amazon.jobs",
-  },
-  {
-    company: "Google",
-    position: "Software Engineer",
-    location: "Mountain View, CA",
-    platform: "LinkedIn",
-    date: "18 May, 2025",
-    status: "In Progress",
-    website: "https://careers.google.com",
-  },
-  {
-    company: "Microsoft",
-    position: "Product Manager",
-    location: "Redmond, WA",
-    platform: "Company Website",
-    date: "15 May, 2025",
-    status: "Get Offer",
-    website: "https://careers.microsoft.com",
-  },
-  {
-    company: "Netflix",
-    position: "UI/UX Designer",
-    location: "Los Gatos, CA",
-    platform: "Glassdoor",
-    date: "22 April, 2025",
-    status: "Rejected",
-    website: "https://jobs.netflix.com",
-  },
-  {
-    company: "Latitude Technolabs",
-    position: "Mobile Engineer",
-    location: "San Francisco, CA",
-    platform: "Company Website",
-    date: "5 May, 2025",
-    status: "Get Offer",
-    website: "https://latitudetechnolabs.com/",
-  },
-  {
-    company: "Shopify",
-    position: "Backend Developer",
-    location: "Remote",
-    platform: "Company Website",
-    date: "25 April, 2025",
-    status: "Applied",
-    website: "https://www.shopify.com/careers",
-  },
-  {
-    company: "Stripe",
-    position: "DevOps Engineer",
-    location: "San Francisco, CA",
-    platform: "Indeed",
-    date: "1 May, 2025",
-    status: "In Progress",
-    website: "https://stripe.com/jobs",
-  },
-  {
-    company: "Airbnb",
-    position: "Mobile Engineer",
-    location: "San Francisco, CA",
-    platform: "Company Website",
-    date: "5 May, 2025",
-    status: "Get Offer",
-    website: "https://careers.airbnb.com",
-  },
-];
-
 const Home = () => {
   const [jobs, setJobs] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+  const token = localStorage.getItem("token");
 
   const fetchJobs = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/jobs/all");
+      const response = await axios.get("http://localhost:8000/api/jobs/all", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setJobs(response.data);
       console.log("Jobs fetched successfully:", response.data);
     } catch (error) {
@@ -104,7 +34,19 @@ const Home = () => {
   useEffect(() => {
     fetchJobs();
   }, [])
-  
+
+  const totalApplications = jobs.length;
+
+  const appliedThisWeek = jobs.filter(job => {
+    const jobDate = new Date(job.date);
+    const now = new Date();
+    const weekAgo = new Date(now.setDate(now.getDate() - 7));
+    return jobDate >= weekAgo;
+  }).length;
+
+  const activeInterviews = jobs.filter(job => job.status === "In Progress").length;
+  const offersReceived = jobs.filter(job => job.status === "Get Offer").length;
+
   return (
     <div className="w-[90%] md:w-[85%] mx-auto mt-10 mb-10 md:mb-20">
       {/* heading */}
@@ -126,10 +68,10 @@ const Home = () => {
 
       {/* Stat Cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
-        <StatCard icon={companies} count={4} label={"Total Applications"} />
-        <StatCard icon={calendar} count={8} label={"Applied This Week"} />
-        <StatCard icon={active} count={4} label={"Active Interviews"} />
-        <StatCard icon={offer} count={1} label={"Offers Received"} />
+        <StatCard icon={companies} count={totalApplications} label={"Total Applications"} />
+        <StatCard icon={calendar} count={appliedThisWeek} label={"Applied This Week"} />
+        <StatCard icon={active} count={activeInterviews} label={"Active Interviews"} />
+        <StatCard icon={offer} count={offersReceived} label={"Offers Received"} />
       </div>
 
       {/* job applications cards */}
@@ -137,8 +79,8 @@ const Home = () => {
         <h2 className="font-semibold text-xl">Job Applications</h2>
 
         <div className="mt-4 grid grid-col-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {jobData.slice(0, 6).map((job, index) => (
-            <JobCard key={index} {...job} />
+          {[...jobs].reverse().slice(0, 6).map((job, index) => (
+            <JobCard key={index} {...job} fetchJobs={fetchJobs} />
           ))}
         </div>
       </div>
@@ -153,7 +95,7 @@ const Home = () => {
         </Link>
       </div>
 
-      <NewJobModal isOpen={isModalOpen} onClose={closeModal} />
+      <NewJobModal isOpen={isModalOpen} onClose={closeModal} fetchJobs={fetchJobs} />
     </div>
   );
 };

@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 import { IconX } from "@tabler/icons-react";
-// import axios from "axios";
+import axios from "axios";
 import { useState } from "react";
+import toast, { Toaster } from 'react-hot-toast';
 
-const NewJobModal = ({ isOpen, onClose }) => {
+const NewJobModal = ({ isOpen, onClose, fetchJobs }) => {
 
     const today = new Date().toISOString().split("T")[0];
 
@@ -34,11 +35,34 @@ const NewJobModal = ({ isOpen, onClose }) => {
 
         console.log(formData);
 
-        // try {
-        //     const res = await axios.post("http://localhost/4000/jobs", formData);
-        // } catch (error) {
-        //     console.log(error);
-        // }
+        try {
+            const res = await axios.post("http://localhost:8000/api/jobs/add", formData, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
+            
+            if (res.status === 201) {
+                toast.success("Job added successfully");
+                fetchJobs();
+
+                setFormData({
+                company: "",
+                position: "",
+                location: "",
+                status: "Applied",
+                date: today, 
+                platform: "",
+                website: "",
+                notes: "",
+            });
+                onClose();
+            } else {
+                toast.success("Failed to add job");
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -196,6 +220,7 @@ const NewJobModal = ({ isOpen, onClose }) => {
                 </form>
 
             </div>
+            <Toaster />
         </div>
     );
 };
