@@ -5,13 +5,13 @@ function Footer() {
   
   return (
     <footer className="bg-white border-t border-gray-200">
-      <div className="container-custom py-8 md:py-12">
+      <div className="container-custom py-8 md:py-12 w-[90%] md:w-[85%] mx-auto">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {/* Brand */}
           <div>
             <Link 
               to="/" 
-              className="text-xl md:text-2xl font-kaushan text-orange-600 line-through font-bold"
+              className="text-xl md:text-2xl font-kaushan text-orange-500 line-through font-bold tracking-wide"
             >
               trackit.
             </Link>
