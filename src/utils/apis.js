@@ -1,8 +1,8 @@
 import axios from "axios";
 
 // Separate base URL for jobs
-const JOBS_BASE_URL = "https://trackit-backend-7ljbuqu79-vrushabh-veers-projects.vercel.app/api/jobs";
-const USERS_BASE_URL = "https://trackit-backend-7ljbuqu79-vrushabh-veers-projects.vercel.app/api/users";
+const JOBS_BASE_URL = "http://localhost:8000/api/jobs";
+const USERS_BASE_URL = "http://localhost:8000/api/users";
 
 // Token fetcher
 const getToken = () => localStorage.getItem("token");
