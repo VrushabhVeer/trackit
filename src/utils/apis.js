@@ -13,6 +13,7 @@ const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true,
 });
 
 // Attach token to all requests
@@ -25,8 +26,8 @@ axiosInstance.interceptors.request.use((config) => {
 });
 
 // --- AUTH APIs ---
-export const registerUser = (data) => axios.post(`${USERS_BASE_URL}/register`, data);
-export const loginUser = (data) => axios.post(`${USERS_BASE_URL}/login`, data);
+export const registerUser = (data) => axios.post(`${USERS_BASE_URL}/register`, data, { withCredentials: true });
+export const loginUser = (data) => axios.post(`${USERS_BASE_URL}/login`, data, { withCredentials: true });
 
 // --- JOB APIs ---
 export const getAllJobs = () => axiosInstance.get("/all");
