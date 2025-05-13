@@ -1,8 +1,8 @@
 // Register.jsx
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import { registerUser } from "../utils/apis.js";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ const Register = () => {
     }
 
     try {
-      const res = await axios.post("http://localhost:8000/api/users/register", formData);
+      const res = await registerUser(formData);
       if (res.status === 201) {
         toast.success("Registration successful");
         navigate("/login");

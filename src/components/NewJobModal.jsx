@@ -1,11 +1,10 @@
 /* eslint-disable react/prop-types */
 import { IconX } from "@tabler/icons-react";
-import axios from "axios";
-import { useState } from "react";
-import toast, { Toaster } from 'react-hot-toast';
+import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import { addJob, getAllJobs, updateJob } from "../utils/apis.js";
 
-const NewJobModal = ({ isOpen, onClose, fetchJobs }) => {
-
+const NewJobModal = ({ isOpen, onClose, mode = "add", initialData = {} }) => {
     const today = new Date().toISOString().split("T")[0];
 
     const [formData, setFormData] = useState({
@@ -17,7 +16,14 @@ const NewJobModal = ({ isOpen, onClose, fetchJobs }) => {
         platform: "",
         website: "",
         notes: "",
+        ...initialData,
     });
+
+    useEffect(() => {
+        if (mode === "edit" && initialData) {
+            setFormData((prev) => ({ ...prev, ...initialData }));
+        }
+    }, [initialData, mode]);
 
     if (!isOpen) return null;
 
@@ -27,43 +33,38 @@ const NewJobModal = ({ isOpen, onClose, fetchJobs }) => {
         setFormData((prev) => ({
             ...prev,
             [name]: value,
-        }))
+        }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log(formData);
-
         try {
-            const res = await axios.post("http://localhost:8000/api/jobs/add", formData, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            });
-            
-            if (res.status === 201) {
-                toast.success("Job added successfully");
-                fetchJobs();
-
-                setFormData({
-                company: "",
-                position: "",
-                location: "",
-                status: "Applied",
-                date: today, 
-                platform: "",
-                website: "",
-                notes: "",
-            });
-                onClose();
+            if (mode === "edit") {
+                const res = await updateJob(initialData._id, formData);
+                if (res.status === 200) {
+                    toast.success("Job updated successfully");
+                    getAllJobs();
+                    onClose();
+                    return;
+                }
             } else {
-                toast.success("Failed to add job");
+                const res = await addJob(formData);
+                if (res.status === 201) {
+                    toast.success("Job added successfully");
+                    getAllJobs();
+                    onClose();
+                    return;
+                }
             }
+            getAllJobs();
         } catch (error) {
-            console.log(error);
+            toast.error("Something went wrong!");
+            console.error(error);
         }
-    }
+    };
+
+    const buttonLabel = mode === "edit" ? "Update Job" : "Add Job";
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50">
@@ -121,7 +122,9 @@ const NewJobModal = ({ isOpen, onClose, fetchJobs }) => {
                             />
                         </div>
                         <div className="w-full">
-                            <label htmlFor="status" className="block font-medium mb-1">Status</label>
+                            <label htmlFor="status" className="block font-medium mb-1">
+                                Status
+                            </label>
                             <select
                                 id="status"
                                 name="status"
@@ -153,7 +156,9 @@ const NewJobModal = ({ isOpen, onClose, fetchJobs }) => {
                             />
                         </div>
                         <div className="w-full">
-                            <label htmlFor="platform" className="block font-medium mb-1">Platform</label>
+                            <label htmlFor="platform" className="block font-medium mb-1">
+                                Platform
+                            </label>
                             <input
                                 type="text"
                                 id="platform"
@@ -177,7 +182,9 @@ const NewJobModal = ({ isOpen, onClose, fetchJobs }) => {
                     </div>
 
                     <div>
-                        <label htmlFor="website" className="block font-medium mb-1">Company Website</label>
+                        <label htmlFor="website" className="block font-medium mb-1">
+                            Company Website
+                        </label>
                         <input
                             type="url"
                             id="website"
@@ -190,7 +197,9 @@ const NewJobModal = ({ isOpen, onClose, fetchJobs }) => {
                     </div>
 
                     <div>
-                        <label htmlFor="notes" className="block font-medium mb-1">Notes</label>
+                        <label htmlFor="notes" className="block font-medium mb-1">
+                            Notes
+                        </label>
                         <textarea
                             id="notes"
                             name="notes"
@@ -214,11 +223,10 @@ const NewJobModal = ({ isOpen, onClose, fetchJobs }) => {
                             type="submit"
                             className="px-4 py-2 bg-orange-500 text-white rounded"
                         >
-                            Add Job
+                            {buttonLabel}
                         </button>
                     </div>
                 </form>
-
             </div>
             <Toaster />
         </div>

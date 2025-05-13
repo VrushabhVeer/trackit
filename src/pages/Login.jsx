@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import { loginUser } from "../utils/apis";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -9,8 +10,8 @@ const Login = () => {
     email: "",
     password: "",
   });
-
   const [showPassword, setShowPassword] = useState(false);
+  const { setUser } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,11 +24,19 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8000/api/users/login", formData);
+      const res = await loginUser(formData);
       if (res.status === 200) {
+        const user = {
+          userName: res.data.userName,
+          email: res.data.userEmail,
+          userId: res.data.userId,
+        };
+
+        localStorage.setItem("trackit-user", JSON.stringify(user));
         localStorage.setItem("token", res.data.token);
-        localStorage.setItem("userName", JSON.stringify(res.data.userName));
-        localStorage.setItem("userId", JSON.stringify(res.data.userId));
+
+        setUser(user);
+        
         toast.success("Login successful");
         navigate("/");
       }
@@ -41,12 +50,18 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
         <div className="mb-6 text-center">
-          <h2 className="text-2xl font-bold text-orange-500">Welcome to trackit.</h2>
-          <p className="text-gray-600 text-sm">Track your job applications in one place</p>
+          <h2 className="text-2xl font-bold text-orange-500">
+            Welcome to trackit.
+          </h2>
+          <p className="text-gray-600 text-sm">
+            Track your job applications in one place
+          </p>
         </div>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
-            <label className="block font-medium mb-1">Email <span className="text-red-500">*</span></label>
+            <label className="block font-medium mb-1">
+              Email <span className="text-red-500">*</span>
+            </label>
             <input
               type="email"
               name="email"
@@ -57,7 +72,9 @@ const Login = () => {
             />
           </div>
           <div>
-            <label className="block font-medium mb-1">Password <span className="text-red-500">*</span></label>
+            <label className="block font-medium mb-1">
+              Password <span className="text-red-500">*</span>
+            </label>
             <input
               type={showPassword ? "text" : "password"}
               name="password"
@@ -76,12 +93,18 @@ const Login = () => {
             />
             <span className="text-sm">Show Password</span>
           </div>
-          <button type="submit" className="w-full bg-orange-500 text-white py-2 rounded-lg">
+          <button
+            type="submit"
+            className="w-full bg-orange-500 text-white py-2 rounded-lg"
+          >
             Login
           </button>
         </form>
         <p className="text-center text-sm mt-4">
-          New user? <Link to="/register" className="text-orange-500 hover:underline">Register</Link>
+          New user?{" "}
+          <Link to="/register" className="text-orange-500 hover:underline">
+            Register
+          </Link>
         </p>
       </div>
       <Toaster />

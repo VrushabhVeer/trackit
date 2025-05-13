@@ -5,9 +5,10 @@ import globe from "../assets/globe.png";
 import remove from "../assets/delete.png";
 import edit from "../assets/edit.png";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import DeleteModal from "./DeleteModal";
 import toast, { Toaster } from "react-hot-toast";
+import NewJobModal from "./NewJobModal";
+import { deleteJob, getAllJobs } from "../utils/apis.js";
 
 const bgColors = [
   "bg-blue-100",
@@ -51,23 +52,17 @@ const JobCard = ({
   platform,
   website,
   date,
-  fetchJobs,
 }) => {
   const [showModal, setShowModal] = useState(false);
-  const token = localStorage.getItem("token");
+  const [editModalOpen, setEditModalOpen] = useState(false);
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(
-        `http://localhost:8000/api/jobs/delete/${_id}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const response = await deleteJob(_id);
       if (response.status === 200 || response.status === 204) {
         toast.success("Application deleted successfully");
         setShowModal(false);
-        fetchJobs();
+        getAllJobs();
       } else {
         toast.error("Failed to delete job");
       }
@@ -153,7 +148,7 @@ const JobCard = ({
           >
             <img className="w-5" src={remove} alt="delete-icon" />
           </button>
-          <button className="bg-black rounded-full px-2 py-2">
+          <button onClick={() => setEditModalOpen(true)} className="bg-black rounded-full px-2 py-2">
             <img className="w-5" src={edit} alt="edit-icon" />
           </button>
         </div>
@@ -163,6 +158,23 @@ const JobCard = ({
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={handleDelete}
+      />
+
+      <NewJobModal
+        isOpen={editModalOpen}
+        onClose={() => setEditModalOpen(false)}
+        mode="edit"
+        initialData={{
+          _id,
+          company,
+          position,
+          location,
+          status,
+          date,
+          platform,
+          website,
+          notes: "",
+        }}
       />
 
       <Toaster />
