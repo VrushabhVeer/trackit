@@ -4,6 +4,9 @@ import axios from "axios";
 const JOBS_BASE_URL = "https://trackit-backend-yn0l.onrender.com/api/jobs";
 const USERS_BASE_URL = "https://trackit-backend-yn0l.onrender.com/api/users";
 
+// const JOBS_BASE_URL = "http://localhost:8000/api/jobs";
+// const USERS_BASE_URL = "http://localhost:8000/api/users";
+
 // Token fetcher
 const getToken = () => localStorage.getItem("token");
 
