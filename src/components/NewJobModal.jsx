@@ -69,7 +69,7 @@ const NewJobModal = ({ isOpen, onClose, mode = "add", initialData = {} }) => {
     return (
         <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50 overflow-y-auto">
             <div className="bg-white p-6 rounded-xl w-full max-w-2xl shadow-lg my-8 max-h-[calc(100vh-4rem)] overflow-y-auto">
-                <div className="flex items-center justify-between mb-6 sticky top-0 bg-white py-2">
+                <div className="flex items-center justify-between mb-6">
                     <h2 className="text-xl font-semibold">Add New Job</h2>
 
                     <IconX className="cursor-pointer" size={18} onClick={onClose} />
