@@ -37,10 +37,10 @@ function Footer() {
               </li>
               <li>
                 <Link
-                  to="/about"
+                  to="/applications"
                   className="text-gray-600 hover:text-primary-600 transition-colors text-sm"
                 >
-                  About
+                  Applications
                 </Link>
               </li>
             </ul>
@@ -54,10 +54,10 @@ function Footer() {
             <ul className="mt-4 space-y-2">
               <li className="text-sm text-gray-600">
                 <a
-                  href="mailto:contact@example.com"
+                  href="mailto:vrushabhveer96@gmail.com"
                   className="hover:text-primary-600 transition-colors"
                 >
-                  contact@example.com
+                  vrushabhveer96@gmail.com
                 </a>
               </li>
             </ul>
@@ -67,7 +67,7 @@ function Footer() {
         {/* Bottom */}
         <div className="mt-8 pt-8 border-t border-gray-200">
           <p className="text-sm text-gray-500 text-center">
-            &copy; {currentYear} ModernApp. All rights reserved.
+            &copy; {currentYear} trackit. All rights reserved.
           </p>
         </div>
       </div>

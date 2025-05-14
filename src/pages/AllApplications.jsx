@@ -54,7 +54,7 @@ const AllApplications = () => {
             </div>
           ) : (
             <div className="mt-4 grid grid-col-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {jobs.map((job, index) => (
+              {jobs.reverse().map((job, index) => (
                 <JobCard key={index} {...job} />
               ))}
             </div>
