@@ -86,7 +86,7 @@ const NewJobModal = ({ isOpen, onClose, mode = "add", initialData = {} }) => {
                                 name="company"
                                 value={formData.company}
                                 onChange={handleChange}
-                                className="w-full border px-4 py-2 rounded-lg"
+                                className="w-full border border-gray-300 px-4 py-2 rounded-lg"
                                 required
                             />
                         </div>
@@ -100,7 +100,7 @@ const NewJobModal = ({ isOpen, onClose, mode = "add", initialData = {} }) => {
                                 name="position"
                                 value={formData.position}
                                 onChange={handleChange}
-                                className="w-full border px-4 py-2 rounded-lg"
+                                className="w-full border border-gray-300 px-4 py-2 rounded-lg"
                                 required
                             />
                         </div>
@@ -117,7 +117,7 @@ const NewJobModal = ({ isOpen, onClose, mode = "add", initialData = {} }) => {
                                 name="location"
                                 value={formData.location}
                                 onChange={handleChange}
-                                className="w-full border px-4 py-2 rounded-lg"
+                                className="w-full border border-gray-300 px-4 py-2 rounded-lg"
                                 required
                             />
                         </div>
@@ -130,7 +130,7 @@ const NewJobModal = ({ isOpen, onClose, mode = "add", initialData = {} }) => {
                                 name="status"
                                 value={formData.status}
                                 onChange={handleChange}
-                                className="w-full border px-4 py-2 rounded-lg"
+                                className="w-full border border-gray-300 px-4 py-2 rounded-lg"
                             >
                                 <option value="Applied">Applied</option>
                                 <option value="In Progress">In Progress</option>
@@ -151,7 +151,7 @@ const NewJobModal = ({ isOpen, onClose, mode = "add", initialData = {} }) => {
                                 name="date"
                                 value={formData.date}
                                 onChange={handleChange}
-                                className="w-full border px-4 py-2 rounded-lg"
+                                className="w-full border border-gray-300 px-4 py-2 rounded-lg"
                                 required
                             />
                         </div>
@@ -166,7 +166,7 @@ const NewJobModal = ({ isOpen, onClose, mode = "add", initialData = {} }) => {
                                 list="platform-options"
                                 value={formData.platform}
                                 onChange={handleChange}
-                                className="w-full border px-4 py-2 rounded-lg"
+                                className="w-full border border-gray-300 px-4 py-2 rounded-lg"
                                 placeholder="e.g. LinkedIn, Indeed"
                             />
                             <datalist id="platform-options">
@@ -191,7 +191,7 @@ const NewJobModal = ({ isOpen, onClose, mode = "add", initialData = {} }) => {
                             name="website"
                             value={formData.website}
                             onChange={handleChange}
-                            className="w-full border px-4 py-2 rounded-lg"
+                            className="w-full border border-gray-300 px-4 py-2 rounded-lg"
                             placeholder="https://example.com"
                         />
                     </div>
@@ -206,7 +206,7 @@ const NewJobModal = ({ isOpen, onClose, mode = "add", initialData = {} }) => {
                             rows={4}
                             value={formData.notes}
                             onChange={handleChange}
-                            className="w-full border px-4 py-2 rounded-lg"
+                            className="w-full border border-gray-300 px-4 py-2 rounded-lg"
                             placeholder="Add any additional notes"
                         />
                     </div>

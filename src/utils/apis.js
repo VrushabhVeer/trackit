@@ -1,13 +1,12 @@
 import axios from "axios";
 
-// Separate base URL for jobs
-const JOBS_BASE_URL = "https://trackit-backend-yn0l.onrender.com/api/jobs";
-const USERS_BASE_URL = "https://trackit-backend-yn0l.onrender.com/api/users";
+// Get environment variables
+const JOBS_BASE_URL = import.meta.env.APP_JOBS_BASE_URL;
+const USERS_BASE_URL = import.meta.env.APP_USERS_BASE_URL;
 
 // const JOBS_BASE_URL = "http://localhost:8000/api/jobs";
 // const USERS_BASE_URL = "http://localhost:8000/api/users";
 
-// Token fetcher
 const getToken = () => localStorage.getItem("token");
 
 // Axios instance for authenticated routes

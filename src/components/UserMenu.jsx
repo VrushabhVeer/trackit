@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { IconChevronDown, IconLogout, IconUser } from "@tabler/icons-react";
+import { IconChevronDown, IconLogout2, IconUser } from "@tabler/icons-react";
 import { useAuth } from "../context/AuthContext";
 
 const UserMenu = () => {
@@ -66,10 +66,10 @@ const UserMenu = () => {
           </div>
           <div className="py-1">
             <button
-              className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-slate-100 flex items-center space-x-2"
+              className="w-full text-left px-4 py-2 font-medium text-red-600 hover:bg-slate-100 flex items-center space-x-2"
               onClick={logout}
             >
-              <IconLogout size={16} />
+              <IconLogout2 size={16} />
               <span>Sign out</span>
             </button>
           </div>
