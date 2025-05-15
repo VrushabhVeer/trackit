@@ -22,7 +22,6 @@ const AllApplications = () => {
       const response = await getAllJobs();
       setJobs(response.data);
       setFilteredJobs(response.data);
-      console.log("Fetched jobs:", response.data);
     } catch (error) {
       console.error("Error fetching jobs:", error);
     } finally {
@@ -48,7 +47,8 @@ const AllApplications = () => {
       const term = searchTerm.toLowerCase();
       results = results.filter(job => 
         job.company.toLowerCase().includes(term) || 
-        job.date.toLowerCase().includes(term)
+        job.date.toLowerCase().includes(term) ||
+        job.position.toLowerCase().includes(term)
       );
     }
 
@@ -79,7 +79,7 @@ const AllApplications = () => {
               <input
                 type="text"
                 className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 sm:text-sm"
-                placeholder="Search by company or date..."
+                placeholder="Search by company, date & position aplied"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
