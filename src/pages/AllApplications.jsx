@@ -14,7 +14,7 @@ const AllApplications = () => {
   const [statusFilter, setStatusFilter] = useState("All");
   const [showFilters, setShowFilters] = useState(false);
 
-  const statusOptions = ["All", "Applied", "In Progress", "Rejected", "Get Offer"];
+  const statusOptions = ["All", "Applied", "Get Call", "In Progress", "Rejected", "Get Offer"];
 
   const fetchJobs = async () => {
     try {

@@ -32,6 +32,8 @@ const getStatusColor = (status) => {
   switch (status) {
     case "Applied":
       return "text-blue-600";
+    case "Get Call":
+      return "text-purple-600";
     case "In Progress":
       return "text-yellow-600";
     case "Rejected":

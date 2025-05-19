@@ -133,6 +133,7 @@ const NewJobModal = ({ isOpen, onClose, mode = "add", initialData = {} }) => {
                                 className="w-full border border-gray-300 px-4 py-2 rounded-lg"
                             >
                                 <option value="Applied">Applied</option>
+                                <option value="Get Call">Get Call</option>
                                 <option value="In Progress">In Progress</option>
                                 <option value="Rejected">Rejected</option>
                                 <option value="Get Offer">Get Offer</option>

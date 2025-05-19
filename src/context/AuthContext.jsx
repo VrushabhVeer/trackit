@@ -13,11 +13,6 @@ export const AuthProvider = ({ children }) => {
     if (storedUser) setUser(JSON.parse(storedUser));
   }, []);
 
-  //   const login = (userData) => {
-  //     localStorage.setItem("trackit-user", JSON.stringify(userData));
-  //     setUser(userData);
-  //   };
-
   const logout = () => {
     localStorage.clear();
     setUser(null);
